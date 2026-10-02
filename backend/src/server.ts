@@ -8,6 +8,7 @@ import styleRoutes from './routes/style';
 import fabricRoutes from './routes/fabric';
 import componentRoutes from './routes/component';
 import costingRoutes from './routes/costing';
+import orderRoutes from './routes/order';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use('/api/styles', styleRoutes);
 app.use('/api/fabrics', fabricRoutes);
 app.use('/api/components', componentRoutes);
 app.use('/api/costings', costingRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('Error:', err);
