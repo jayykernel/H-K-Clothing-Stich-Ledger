@@ -41,3 +41,40 @@ model RefreshToken {
   @@index([token])
   @@index([userId])
 }
+
+model Style {
+  id            String   @id @default(cuid())
+  styleNumber   String   @unique
+  styleName     String
+  fabricType    String
+  gsm           Int      // Grams per square meter
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  fabrics       Fabric[]
+
+  @@index([styleNumber])
+}
+
+model Fabric {
+  id            String   @id @default(cuid())
+  styleId       String
+  style         Style    @relation(fields: [styleId], references: [id], onDelete: Cascade)
+  serialNumber  String   @unique
+  color         String
+  pricePerKg    Decimal  // Price per kilogram
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([serialNumber])
+  @@index([styleId])
+}
+
+model Component {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([name])
+}

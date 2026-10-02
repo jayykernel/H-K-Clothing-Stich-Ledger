@@ -4,6 +4,9 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
+import styleRoutes from './routes/style';
+import fabricRoutes from './routes/fabric';
+import componentRoutes from './routes/component';
 
 dotenv.config();
 
@@ -20,6 +23,9 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/styles', styleRoutes);
+app.use('/api/fabrics', fabricRoutes);
+app.use('/api/components', componentRoutes);
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('Error:', err);
