@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hk-clothing/api-types": "*",
+    "@hk-clothing/business-logic": "*",
     "@hk-clothing/utils": "*",
     "@hk-clothing/validation": "*",
     "@prisma/client": "^5.10.2",
