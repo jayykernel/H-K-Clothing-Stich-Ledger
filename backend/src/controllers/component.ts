@@ -13,7 +13,7 @@ export const createComponent = async (req: Request, res: Response, next: NextFun
   try {
     const data: CreateComponentInput = createComponentSchema.parse(req.body);
 
-    const existingComponent = await prisma.component.findUnique({
+    const existingComponent = await prisma.component.findFirst({
       where: { name: data.name },
     });
     if (existingComponent) {
