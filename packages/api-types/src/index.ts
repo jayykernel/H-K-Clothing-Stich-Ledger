@@ -88,3 +88,92 @@ export interface UpdateComponentInput {
   name?: string;
   description?: string;
 }
+
+// Costing Types & DTOs
+export type GarmentSize = 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL' | string;
+
+export interface StyleDetail {
+  styleNumber: string;
+  styleName: string;
+  fabricType: string;
+  gsm: number;
+}
+
+export interface FabricDetail {
+  serialNumber: string;
+  color: string;
+  pricePerKg: number;
+  fabricType?: string;
+  associatedComponents?: string[];
+}
+
+export interface ComponentMeasurement {
+  length: number; // in cm
+  width: number; // in cm
+  panelCount?: number;
+  fabricFactor?: number;
+}
+
+export interface ComponentSpecification {
+  name: string;
+  fabricSerialNumber: string;
+  gsm: number;
+  panelCount: number;
+  fabricFactor: number; // 1 for single, 2 for symmetric (e.g., sleeves/sides)
+}
+
+export interface SizeComponentCalculation {
+  componentName: string;
+  fabricSerialNumber: string;
+  length: number;
+  width: number;
+  gsm: number;
+  panelCount: number;
+  fabricFactor: number;
+  weightGrams: number;
+  weightKg: number;
+  pricePerKg: number;
+  fabricCostPerPiece: number;
+}
+
+export interface SizeCalculationResult {
+  size: string;
+  quantity: number;
+  components: SizeComponentCalculation[];
+  weightGramsPerPiece: number;
+  weightKgPerPiece: number;
+  fabricCostPerPiece: number;
+  totalCostForSize: number;
+  totalWeightKgForSize: number;
+}
+
+export interface CostingCalculationsSummary {
+  sizeBreakdown: Record<string, SizeCalculationResult>;
+  totalQuantity: number;
+  totalWeightKg: number;
+  totalCost: number;
+  averageCostPerPiece: number;
+  averageWeightKgPerPiece: number;
+}
+
+export interface CostingInputData {
+  orderId?: string;
+  styleDetails: StyleDetail;
+  fabricDetails: FabricDetail[];
+  sizeQuantities: Record<string, number>;
+  measurements: Record<string, Record<string, ComponentMeasurement>>; // size -> componentName -> measurement
+  componentDetails: ComponentSpecification[];
+}
+
+export interface CostingRecordDTO {
+  id: string;
+  orderId?: string | null;
+  styleDetails: StyleDetail;
+  fabricDetails: FabricDetail[];
+  sizeQuantities: Record<string, number>;
+  measurements: Record<string, Record<string, ComponentMeasurement>>;
+  componentDetails: ComponentSpecification[];
+  calculations: CostingCalculationsSummary;
+  createdAt: string;
+  updatedAt: string;
+}
