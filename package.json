@@ -1,0 +1,19 @@
+{
+  "name": "hk-clothing-stich-ledger",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "backend",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev:backend": "npm --workspace=backend run dev",
+    "start:backend": "npm --workspace=backend run start",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  }
+}
