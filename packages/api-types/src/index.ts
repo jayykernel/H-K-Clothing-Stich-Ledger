@@ -177,3 +177,97 @@ export interface CostingRecordDTO {
   createdAt: string;
   updatedAt: string;
 }
+
+// Order Types & DTOs
+export type OrderStatus = 'DRAFT' | 'ACTIVE' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+
+export interface OrderItemDTO {
+  id: string;
+  orderId: string;
+  size: string;
+  quantity: number;
+  unitPrice?: string | null;
+  totalPrice?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OrderStatusHistoryDTO {
+  id: string;
+  orderId: string;
+  status: OrderStatus;
+  notes?: string | null;
+  changedBy?: string | null;
+  createdAt: string;
+}
+
+export interface OrderDTO {
+  id: string;
+  orderNumber: string;
+  buyerName: string;
+  styleNumber: string;
+  styleName?: string | null;
+  status: OrderStatus;
+  isArchived: boolean;
+  costingRecordId?: string | null;
+  costingRecord?: CostingRecordDTO | null;
+  totalQuantity: number;
+  totalAmount?: string | null;
+  notes?: string | null;
+  deliveryDate?: string | null;
+  items: OrderItemDTO[];
+  statusHistory?: OrderStatusHistoryDTO[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateOrderItemInput {
+  size: string;
+  quantity: number;
+  unitPrice?: number;
+  totalPrice?: number;
+}
+
+export interface CreateOrderInput {
+  orderNumber?: string;
+  buyerName: string;
+  styleNumber: string;
+  styleName?: string;
+  costingRecordId?: string;
+  notes?: string;
+  deliveryDate?: string;
+  items: CreateOrderItemInput[];
+}
+
+export interface CreateOrderFromCostingInput {
+  costingRecordId: string;
+  buyerName: string;
+  orderNumber?: string;
+  notes?: string;
+  deliveryDate?: string;
+}
+
+export interface UpdateOrderInput {
+  buyerName?: string;
+  styleNumber?: string;
+  styleName?: string;
+  notes?: string;
+  deliveryDate?: string;
+  items?: CreateOrderItemInput[];
+}
+
+export interface UpdateOrderStatusInput {
+  status: OrderStatus;
+  notes?: string;
+}
+
+export interface OrderFilterParams {
+  search?: string;
+  status?: OrderStatus;
+  buyerName?: string;
+  styleNumber?: string;
+  isArchived?: boolean;
+  page?: number;
+  limit?: number;
+}
+
