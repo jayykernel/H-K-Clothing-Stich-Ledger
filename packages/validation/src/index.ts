@@ -1,6 +1,7 @@
-// Re-export everything from auth and costing modules
+// Re-export everything from auth, costing and order modules
 export * from './auth';
 export * from './costing';
+export * from './order';
 
 import { z } from 'zod';
 
