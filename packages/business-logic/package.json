@@ -7,6 +7,9 @@
     "build": "tsc",
     "dev": "tsc --watch"
   },
+  "dependencies": {
+    "@hk-clothing/api-types": "*"
+  },
   "devDependencies": {
     "@hk-clothing/typescript-config": "*",
     "typescript": "^5.3.3"
