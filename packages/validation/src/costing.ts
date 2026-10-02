@@ -46,3 +46,48 @@ export const updateComponentSchema = z.object({
 
 export type CreateComponentInput = z.infer<typeof createComponentSchema>;
 export type UpdateComponentInput = z.infer<typeof updateComponentSchema>;
+
+// Costing validation schemas
+export const styleDetailSchema = z.object({
+  styleNumber: z.string().min(1, 'Style number is required'),
+  styleName: z.string().min(1, 'Style name is required'),
+  fabricType: z.string().min(1, 'Fabric type is required'),
+  gsm: z.number().positive('GSM must be positive'),
+});
+
+export const fabricDetailSchema = z.object({
+  serialNumber: z.string().min(1, 'Serial number is required'),
+  color: z.string().min(1, 'Color is required'),
+  pricePerKg: z.number().positive('Price per kg must be positive'),
+  fabricType: z.string().optional(),
+  associatedComponents: z.array(z.string()).optional(),
+});
+
+export const componentMeasurementSchema = z.object({
+  length: z.number().positive('Length must be positive'),
+  width: z.number().positive('Width must be positive'),
+  panelCount: z.number().int().positive().optional(),
+  fabricFactor: z.number().positive().optional(),
+});
+
+export const componentSpecificationSchema = z.object({
+  name: z.string().min(1, 'Component name is required'),
+  fabricSerialNumber: z.string().min(1, 'Fabric serial number is required'),
+  gsm: z.number().positive('GSM must be positive'),
+  panelCount: z.number().int().positive().default(1),
+  fabricFactor: z.number().positive().default(1),
+});
+
+export const costingInputSchema = z.object({
+  orderId: z.string().optional().nullable(),
+  styleDetails: styleDetailSchema,
+  fabricDetails: z.array(fabricDetailSchema).min(1, 'At least one fabric is required'),
+  sizeQuantities: z.record(z.string(), z.number().int().nonnegative('Quantity cannot be negative')),
+  measurements: z.record(
+    z.string(), // size
+    z.record(z.string(), componentMeasurementSchema) // component -> measurement
+  ),
+  componentDetails: z.array(componentSpecificationSchema).min(1, 'At least one component is required'),
+});
+
+export type CostingInput = z.infer<typeof costingInputSchema>;
