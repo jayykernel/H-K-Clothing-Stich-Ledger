@@ -78,3 +78,18 @@ model Component {
 
   @@index([name])
 }
+
+model CostingRecord {
+  id               String   @id @default(cuid())
+  orderId          String?
+  styleDetails     Json
+  fabricDetails    Json
+  sizeQuantities   Json
+  measurements     Json
+  componentDetails Json
+  calculations     Json
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([orderId])
+}
