@@ -15,6 +15,14 @@ enum Role {
   VIEWER
 }
 
+enum OrderStatus {
+  DRAFT
+  ACTIVE
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
 model User {
   id            String         @id @default(cuid())
   email         String         @unique
@@ -90,6 +98,61 @@ model CostingRecord {
   calculations     Json
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+  orders           Order[]
+
+  @@index([orderId])
+}
+
+model Order {
+  id              String               @id @default(cuid())
+  orderNumber     String               @unique
+  buyerName       String
+  styleNumber     String
+  styleName       String?
+  status          OrderStatus          @default(DRAFT)
+  isArchived      Boolean              @default(false)
+  costingRecordId String?
+  costingRecord   CostingRecord?       @relation(fields: [costingRecordId], references: [id], onDelete: SetNull)
+  totalQuantity   Int                  @default(0)
+  totalAmount     Decimal?             @default(0)
+  notes           String?
+  deliveryDate    DateTime?
+  items           OrderItem[]
+  statusHistory   OrderStatusHistory[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  @@index([orderNumber])
+  @@index([buyerName])
+  @@index([styleNumber])
+  @@index([status])
+  @@index([isArchived])
+  @@index([costingRecordId])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  size       String
+  quantity   Int      @default(0)
+  unitPrice  Decimal? @default(0)
+  totalPrice Decimal? @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([size])
+}
+
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  notes     String?
+  changedBy String?
+  createdAt DateTime    @default(now())
 
   @@index([orderId])
 }
