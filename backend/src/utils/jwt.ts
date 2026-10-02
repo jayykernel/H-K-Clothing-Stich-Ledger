@@ -7,10 +7,12 @@ const ACCESS_TOKEN_EXPIRES_IN = env.JWT_ACCESS_EXPIRES_IN || '15m';
 const REFRESH_TOKEN_EXPIRES_IN = env.JWT_REFRESH_EXPIRES_IN || '7d';
 
 export const generateAccessToken = (payload: Object) => {
+  // @ts-ignore - jsonwebtoken types have signature mismatch in current version
   return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
 };
 
 export const generateRefreshToken = (payload: Object) => {
+  // @ts-ignore - jsonwebtoken types have signature mismatch in current version
   return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
 };
 
